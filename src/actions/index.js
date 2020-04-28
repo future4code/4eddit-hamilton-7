@@ -8,14 +8,14 @@ export const setFeed = (posts) => ({
     payload: {
         posts: posts
     }
-})
+})   
 export const setPostDetail = (post) => ({
     type: "SET_POST_DETAIL",
     payload: {
         post
     }
 })
-
+//GET Get Posts
 export const fetchPostsAction = () => async dispatch => {
     try {
         const request = await axios.get(
@@ -33,19 +33,24 @@ export const fetchPostsAction = () => async dispatch => {
     }
 
 }
-
+//POST Login
 export const loginAction = (email, password) => async dispatch => {
-    const request = await axios.post(
-        "https://us-central1-future-apis.cloudfunctions.net/fourEddit/login",
-        {
-            email,
-            password
-        }
-    )
+    const body = {
+        
+        email:email,
+        password:password
+
+    } 
+    try {
+    const request = await axios.post("https://us-central1-future-apis.cloudfunctions.net/fourEddit/login", 
+    body)
+
     window.localStorage.setItem("token", request.data.token)
     dispatch(push(routes.root))
+} catch {
+    window.alert("Errou, tente outra vez")
 }
-
+//POST Signup
 export const signupAction = (username, email, password) => async dispatch => {
     const request = await axios.post(
         "https://us-central1-future-apis.cloudfunctions.net/fourEddit/signup",
@@ -57,7 +62,7 @@ export const signupAction = (username, email, password) => async dispatch => {
     )
     dispatch(push(routes.root))
 }
-
+//POST Create Post
 export const postAction = (title, text) => async dispatch => {
     const request = await axios.post(
         "https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts",
@@ -74,7 +79,7 @@ export const postAction = (title, text) => async dispatch => {
     dispatch(fetchPostsAction())
 }
 
-
+//GET Get Post Detail
 export const fetchPostDetail = (id) => async dispatch => {
     const request = await axios.get(
         `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${id}`, {
@@ -85,7 +90,7 @@ export const fetchPostDetail = (id) => async dispatch => {
     )
     dispatch(setPostDetail(request.data.post))
 }
-
+//POST Create Comment
 export const postCommentAction = (id, comment) => async dispatch => {
     const request = await axios.post(
         `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${id}/comment`,
@@ -100,7 +105,7 @@ export const postCommentAction = (id, comment) => async dispatch => {
     )
     dispatch(fetchPostDetail(id))
 }
-
+//PUT Vote
 export const voteCommentAction = (postId, commentId, direction) => async dispatch => {
     const request = await axios.put(
         `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`,
@@ -115,7 +120,7 @@ export const voteCommentAction = (postId, commentId, direction) => async dispatc
     )
     dispatch(fetchPostDetail(postId))
 }
-
+//PUT Vote Comment
 export const votePostAction = (postId, direction) => async dispatch => {
     const request = await axios.put(
         `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`,

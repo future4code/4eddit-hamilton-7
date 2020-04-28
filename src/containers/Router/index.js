@@ -6,8 +6,9 @@ import LoginPage from "../LoginPage";
 
 
 
-const routes = {
-  root: "/"
+export const routes = {
+  root: "/",
+  
   // Outras rotas aqui
 };
 
@@ -16,6 +17,7 @@ function Router(props) {
     <ConnectedRouter history={props.history}>
       <Switch>
         <Route path={routes.root} component={LoginPage} />
+        
       </Switch>
     </ConnectedRouter>
   );
