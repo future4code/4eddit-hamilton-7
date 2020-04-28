@@ -10,13 +10,7 @@ class LoginPage extends Component {
     password:''
 
   }
-  componentDidMount = () => {
-    const token = window.localStorage.getItem('token')
 
-    if(token === null) {
-      this.props.goToLogin()
-    }
-  };
   handleInputChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -27,12 +21,15 @@ class LoginPage extends Component {
     this.props.login(this.state.email)
     this.props.login(this.state.password)
   }
-
+   handleLog = () => {
+     window.localStorage = clear()
+   }
   render() {
     const { email, password } = this.state;
-    
+    const log = localStorage.getItem('token') !==  null
     return (
-      <div onSubmit={handleOnSubmit}>
+      <>
+      <form onSubmit={handleOnSubmit}>
        <TextField
           onChange = {this.handleInputChange}
           required
@@ -54,7 +51,9 @@ class LoginPage extends Component {
 
        />
         <Button type="submit">Submit</Button>
-      </div>
+      </form>
+      {log && <Button onClick={this.handleLog}>Logout</Button>}
+      </>
     );
   }
 }
