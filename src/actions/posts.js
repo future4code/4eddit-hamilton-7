@@ -175,3 +175,4 @@ export const postUpComments = (commentId, postId ) => async (dispatch, getState)
 		window.alert(e.message)
 	}
 }
+// testes
