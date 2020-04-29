@@ -168,10 +168,7 @@ const mapDispatchToProps = dispatch => ({
     goToCreateUser: () => dispatch(push(routes.createUser)),
     goToLogin: () => dispatch(push(routes.root)),
     signUp: (email, password, user) => dispatch(signUp(email, password, user))
-    //   goToHomePage: () => dispatch(push(routes.home)),
-    //   goToLoginPage: () => dispatch(push(routes.login)),
-    //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),
-    //   doLogin: (email, password) => dispatch(login(email, password))
+
 });
 
 export default connect(null, mapDispatchToProps)(LoginPage);
