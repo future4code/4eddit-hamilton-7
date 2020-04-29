@@ -32,6 +32,7 @@ export const createPost = (title, text) => async (dispatch, getState) => {
 	const data = { title, text }
 	console.log('title', title, 'text', text)
 	try {
+
 		const response = await axios.post(
 			"https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts", data,
 			{
@@ -57,6 +58,7 @@ export const postUpVote = (id ) => async (dispatch, getState) => {
 	const data = {direction: +1}
 	console.log(idVote)
 	try {
+
 		const response = await axios.put(
 			`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${idVote}/vote`, data,
 			{
@@ -77,6 +79,7 @@ export const postDownVote = (id ) => async (dispatch, getState) => {
 	const data = {direction: -1}
 	console.log(idVote)
 	try {
+
 		const response = await axios.put(
 			`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${idVote}/vote`, data,
 			{
@@ -84,7 +87,8 @@ export const postDownVote = (id ) => async (dispatch, getState) => {
 					auth: token
 				}
 			}
-		);	
+		);
+		
 		dispatch(getPosts());
 	} catch (e) {
 		window.alert(e.message)
@@ -108,30 +112,33 @@ export const snackBarOpen = (msg, variant ) => {
 };
 
 export const postUpComments = (commentId, postId ) => async (dispatch, getState) => {
-	const token = window.localStorage.getItem("token");	
+	const token = window.localStorage.getItem("token");
+	
 	console.log(commentId, postId)
 	const data = {direction: +1}
 	try {
 
 		const response = await axios.put(
-			`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
+			`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
 			{
 				headers: {
 					auth: token
 				}
 			}
-		);		
+		);
+		 //dispatch(postUpComments(postUpVote));
 	} catch (e) {
 		window.alert(e.message)
 	}
 }
 
-const comments = ( postId) => async () => {
+ export const comments = ( postId) => async () => {
     console.log(postId)
     const token = window.localStorage.getItem("token");
+
     try {
       const response = await Axios.get(
-        `https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}`,
+        `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/comment`,
         {
           headers: {
             auth: token
@@ -154,8 +161,9 @@ const comments = ( postId) => async () => {
 	const data = {direction: -1}
 	console.log(commentId, postId)
 	try {
+
 		const response = await Axios.put(
-			`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
+			`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
 			{
 				headers: {
 					auth: token
