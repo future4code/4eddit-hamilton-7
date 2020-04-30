@@ -1,28 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { getPosts } from '../../actions/posts'
 import styled from "styled-components";
 import { routes } from "../Router";
-import { Card, Snackbar } from "@material-ui/core";
-import { getPosts } from "../../actions/posts";
 import Post from "../../components/Post.js/post";
+import Axios from "axios";
+import Comments from "../../components/Comments/comments";
+
+//Material ui
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { Card, Snackbar } from "@material-ui/core";
 import UpVote from "@material-ui/icons/ThumbUp";
 import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
 import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
 import {
   createPost,
-  postUpVote,
-  postDownVote,
+  postVote,
   onCloseSnackBar,
   postUpComments,
   postDownComments,
 } from "../../actions/posts";
 import { MySnackbarContentWrapper } from "../../components/SnackBar/snackBar";
-import Axios from "axios";
-import Comments from "../../components/Comments/comments";
 
 const InsertPostWrapper = styled.div`
   display: flex;
@@ -107,20 +108,24 @@ class Feed extends Component {
       [event.target.name]: event.target.value,
     });
   };
-
+  
+  handleLogout = () => {
+    localStorage.clear()
+    this.props.goToLoginPage()
+  }
   onCreatePost = (event) => {
     event.preventDefault();
     const { title, post } = this.state;
     this.props.createPost(title, post);
   };
 
-  clickUpVote = (post) => {
-    this.props.postUpVote(post.id);
-  };
+  clickVote = (post,direction) => {
+    if(post.userVoteDirection === direction) {
+      this.props.postVote(post.id, 0);
+    } else {
+    this.props.postVote(post.id, direction);
+  }}
 
-  clickDownVote = (post) => {
-    this.props.postDownVote(post.id);
-  };
   clickDownVoteComments = (commentId, postId) => {
     console.log("comment", commentId, "post", postId);
     this.props.postDownVoteComments(commentId, postId);
@@ -153,9 +158,11 @@ class Feed extends Component {
     }
   };
   render() {
-    console.log(this.state);
+    
+    console.log(this.state)
     return (
       <AppWrapper>
+        
         <InsertPostWrapper>
           <PostCreate>
             <CardStyled>
@@ -184,6 +191,10 @@ class Feed extends Component {
                 >
                   ENVIAR
                 </Button>
+                    <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick ={this.handleLogout}>Logout</Button>
               </FormSyled>
             </CardStyled>
           </PostCreate>
@@ -209,8 +220,8 @@ class Feed extends Component {
                   )
                 }
                 showComments={() => this.comments(post.id)}
-                onClickUpVote={() => this.clickUpVote(post)}
-                onClickDownVote={() => this.clickDownVote(post)}
+                onClickUpVote={() => this.clickVote(post,1)}
+                onClickDownVote={() => this.clickVote(post,-1)}
                 postId={post.id}
                 comments={
                   this.state[post.id] &&
@@ -282,8 +293,8 @@ const mapDispatchToProps = (dispatch) => ({
   goToLoginPage: () => dispatch(push(routes.root)),
   getPosts: () => dispatch(getPosts()),
   createPost: (title, post) => dispatch(createPost(title, post)),
-  postUpVote: (id) => dispatch(postUpVote(id)),
-  postDownVote: (id) => dispatch(postDownVote(id)),
+  postVote: (id,direction) => dispatch(postVote(id,direction)),
+ 
   onCloseSnackBar: () => dispatch(onCloseSnackBar()),
   postDownVoteComments: (commentId, postId) =>
     dispatch(postDownComments(commentId, postId)),

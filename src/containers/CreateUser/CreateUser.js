@@ -158,12 +158,6 @@ class LoginPage extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     errorMessage: state.auth.loginError
-//   };
-// };
-
 const mapDispatchToProps = dispatch => ({
     goToCreateUser: () => dispatch(push(routes.createUser)),
     goToLogin: () => dispatch(push(routes.root)),
