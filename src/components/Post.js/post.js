@@ -62,21 +62,21 @@ class Post extends Component {
             <CardContent>
                 <Typography component="p">
                     {this.props.textCard}
-          </Typography>
+                </Typography>
             </CardContent>
             <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }}>
                 
                 <IconWrapper>
-                <IconButton onClick={this.props.onClickUpVote} >
-                   {this.props.upVote}
-                </IconButton>
-                    <p>{this.props.votesCountCard}</p>
-                <IconButton onClick={this.props.onClickDownVote}>
-                    {this.props.DownVote}
-                </IconButton>
+                    <IconButton onClick={this.props.onClickUpVote} >
+                    {this.props.upVote}
+                    </IconButton>
+                        <p>{this.props.votesCountCard}</p>
+                    <IconButton onClick={this.props.onClickDownVote}>
+                        {this.props.DownVote}
+                    </IconButton>
                 </IconWrapper>
                     
-                <Button
+            <Button
                     size="small"
                     color="primary"
                     onClick={this.handleExpandClick}
@@ -87,7 +87,7 @@ class Post extends Component {
             </Button>
                 
             </CardActions>
-            <Collapse in={this.state.expanded}timeout="auto" unmountOnExit>
+            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <CardContent >
                     {this.props.comments}
                 </CardContent>

@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { getPosts } from '../../actions/posts'
 import styled from "styled-components";
 import { routes } from "../Router";
+import Post from "../../Components/Post.js/post";
+import Axios from "axios";
+import Comments from "../../Components/Comments/comments";
+import { createPost, postUpVote, postDownVote, onCloseSnackBar, postUpComments, postDownComments } from '../../actions/posts'
+//Material ui
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { Card, Snackbar } from "@material-ui/core";
-import { getPosts } from '../../actions/posts'
-import Post from "../../components/Post.js/post";
 import UpVote from '@material-ui/icons/ThumbUp';
 import UpVoteOutlined from '@material-ui/icons/ThumbUpOutlined';
 import DownVote from '@material-ui/icons/ThumbDown';
 import DownVoteOutlined from '@material-ui/icons/ThumbDownOutlined';
-import { createPost, postUpVote, postDownVote, onCloseSnackBar, postUpComments, postDownComments } from '../../actions/posts'
-import { MySnackbarContentWrapper } from "../../components/SnackBar/snackBar";
-import Axios from "axios";
-import Comments from "../../components/Comments/comments";
+
+import { MySnackbarContentWrapper } from "../../Components/SnackBar/snackBar";
+
 
 const InsertPostWrapper = styled.div`
   display: flex;
@@ -28,6 +31,7 @@ const InsertPostWrapper = styled.div`
   height: 20vw;
 `
 const AppWrapper = styled.div`
+
     display:flex;
     flex-direction:column;  
     width:100vw;
@@ -101,7 +105,11 @@ class Feed extends Component {
       [event.target.name]: event.target.value
     });
   };
-
+  
+  handleLogout = () => {
+    localStorage.clear()
+    this.props.goToLoginPage()
+  }
   onCreatePost = (event) => {
     event.preventDefault()
     const { title, post } = this.state
@@ -147,9 +155,11 @@ class Feed extends Component {
     }
   }
   render() {
+    
     console.log(this.state)
     return (
       <AppWrapper>
+        
         <InsertPostWrapper>
           <PostCreate>
             <CardStyled>
@@ -175,7 +185,11 @@ class Feed extends Component {
                   disabled={!this.state.post}
                 >
                   ENVIAR
-                    </Button>
+                </Button>
+                    <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick ={this.handleLogout}>Logout</Button>
               </FormSyled>
             </CardStyled>
           </PostCreate>

@@ -74,7 +74,7 @@ function MySnackbarContent(props) {
       ]}
       {...other}
     />
-  );
+  ); 
 }
 
 // MySnackbarContent.propTypes = {
