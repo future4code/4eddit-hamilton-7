@@ -2,9 +2,12 @@ import axios from "axios";
 import { push, replace  } from "connected-react-router";
 import { routes } from "../containers/Router";
 
+
+
 export const login = (email, password) => async dispatch => {
     
         try {
+    // dispatch(clearErrorMessageAction());
     const response = await axios.post(
       "https://us-central1-future-apis.cloudfunctions.net/fourEddit/login",
       {
@@ -15,13 +18,16 @@ export const login = (email, password) => async dispatch => {
     window.localStorage.setItem("token", response.data.token);
     dispatch(replace(routes.feed));
   } catch (e) {
+    // dispatch(setErrorMessageAction(e.message));
     window.alert(e.message)
   }
 }; 
 
-export const signUp = ( email, password, username) => async dispatch => { 
+export const signUp = ( email, password, username) => async dispatch => {
+  
   try {
-console.log("Sucesso")
+// dispatch(clearErrorMessageAction());
+console.log("deu certo")
 const response = await axios.post(
 "https://us-central1-future-apis.cloudfunctions.net/fourEddit/signup",
 {
@@ -31,8 +37,9 @@ const response = await axios.post(
 }
 );
 window.localStorage.setItem("token", response.data.token);
-dispatch(push(routes.feed));
+dispatch(replace(routes.feed));
 } catch (e) {
+// dispatch(setErrorMessageAction(e.message));
 window.alert(e.message)
 }
 }; 
