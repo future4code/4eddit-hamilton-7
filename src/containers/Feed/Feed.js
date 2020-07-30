@@ -5,8 +5,25 @@ import { getPosts } from '../../actions/posts'
 import styled from "styled-components";
 import { routes } from "../Router";
 import Post from "../../components/Post.js/post";
+import Post from "../../Components/Post.js/post";
 import Axios from "axios";
-import Comments from "../../components/Comments/comments";
+import Comments from "../../Components/Comments/comments";
+//Material ui
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { Card, Snackbar } from "@material-ui/core";
+import UpVote from "@material-ui/icons/ThumbUp";
+import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
+import DownVote from "@material-ui/icons/ThumbDown";
+import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
+import {
+  createPost,
+  postVote,
+  onCloseSnackBar,
+  postUpComments,
+  postDownComments,
+} from "../../actions/posts";
+import { MySnackbarContentWrapper } from "../../Components/SnackBar/snackBar";
 
 //Material ui
 import TextField from "@material-ui/core/TextField";
